@@ -6,9 +6,13 @@ from torch.utils.data import DataLoader
 
 from common.common import parse_args
 import models.classifier as C
-from datasets import get_dataset, get_superclass_list, get_subclass_dataset
+from datasets import set_data_path, get_dataset, get_superclass_list, get_subclass_dataset
+
 
 P = parse_args()
+
+### Set data path ###
+set_data_path(P.data_path)
 
 ### Set torch device ###
 

@@ -7,9 +7,8 @@ from torchvision import datasets, transforms
 
 from utils.utils import set_random_seed
 
-DATA_PATH = '~/data/'
-IMAGENET_PATH = '~/data/ImageNet'
-
+DATA_PATH = '../data/'
+IMAGENET_PATH = '../data/ImageNet/'
 
 CIFAR10_SUPERCLASS = list(range(10))  # one class
 IMAGENET_SUPERCLASS = list(range(30))  # one class
@@ -37,7 +36,6 @@ CIFAR100_SUPERCLASS = [
     [41, 69, 81, 85, 89],
 ]
 
-
 class MultiDataTransform(object):
     def __init__(self, transform):
         self.transform1 = transform
@@ -64,6 +62,9 @@ class MultiDataTransformList(object):
 
         return sample_list, self.clean_transform(sample)
 
+def set_data_path(data_path):
+    DATA_PATH = data_path
+    IMAGENET_PATH = data_path + "ImageNet"
 
 def get_transform(image_size=None):
     # Note: data augmentation is implemented in the layers
