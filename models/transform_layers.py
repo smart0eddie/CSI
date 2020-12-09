@@ -98,8 +98,9 @@ class RandomResizedCropLayer(nn.Module):
         grid = F.affine_grid(_theta, inputs.size(), **kwargs).to(_device)
         output = F.grid_sample(inputs, grid, padding_mode='reflection', **kwargs)
 
-        if self.size is not None:
-            output = F.adaptive_avg_pool2d(output, self.size)
+        # adaptive_avg_pool2d() on TWCC requires output size to be 2d...
+        if self.size is not None and len(self.size) >= 2:                        
+            output = F.adaptive_avg_pool2d(output, self.size[0:2])
 
         return output
 
