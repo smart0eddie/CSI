@@ -1,1 +1,3 @@
-.vscode/twcc_cmd
+/logs
+/.vscode
+*.pyc
