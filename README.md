@@ -60,7 +60,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -m torch.distributed.launch --nproc_per_node
 
 > Option --one_class_idx denotes the in-distribution of one-class training.
 > For multi-class training, set --one_class_idx as None.
-> To run SimCLR simply change --mode to simclr.
+> To run SimCLR simply change --mode to simclr and remove --shift_trans_type 
 > Total batch size should be 512 = 4 (GPU) * 32 (--batch_size option) * 4 (cardinality of shifted transformation set). 
 
 ### Labeled multi-class 
@@ -73,7 +73,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -m torch.distributed.launch --nproc_per_node
 python train.py --mode sup_CSI_linear --dataset <DATASET> --model <NETWORK> --batch_size 32 --epoch 100 --shift_trans_type rotation --load_path <MODEL_PATH>
 ```
 
-> To run SupCLR simply change --mode to sup_simclr, sup_linear for representation training and linear layer training respectively.
+> To run SupCLR simply change --mode to sup_simclr, sup_linear for representation training and linear layer training respectively and remove --shift_trans_type.
 > Total batch size should be same as above. Currently only supports rotation for shifted transformation.
 
 ## 3. Evaluation
@@ -94,7 +94,7 @@ python eval.py --mode ood_pre --dataset <DATASET> --model <NETWORK> --ood_score 
 > Option --one_class_idx denotes the in-distribution of one-class evaluation.
 > For multi-class evaluation, set --one_class_idx as None.
 > The resize_factor & resize fix option fix the cropping size of RandomResizedCrop().
-> For SimCLR evaluation, change --ood_score to simclr.
+> For SimCLR evaluation, change --ood_score to simclr and remove --shift_trans_type.
 
 ### Labeled multi-class 
 To evaluate my model on labeled multi-class accuracy, ECE, OOD detection setting, run this command:
