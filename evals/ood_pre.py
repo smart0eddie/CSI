@@ -59,8 +59,8 @@ def eval_ood_detection(P, model, id_loader, ood_loaders, ood_scores, train_loade
         weight_shi.append(1 / shi_mean.mean().item())
 
     if ood_score == 'simclr':
-        P.weight_sim = [1]
-        P.weight_shi = [0]
+        P.weight_sim = [1] + [0] * max(0, P.K_shift - 1)
+        P.weight_shi = [0] * P.K_shift
     elif ood_score == 'CSI':
         P.weight_sim = weight_sim
         P.weight_shi = weight_shi
@@ -116,7 +116,8 @@ def get_scores(P, feats_dict, ood_score):
         f_sim = [f.mean(dim=0, keepdim=True) for f in f_sim.chunk(P.K_shift)]  # list of (1, d)
         f_shi = [f.mean(dim=0, keepdim=True) for f in f_shi.chunk(P.K_shift)]  # list of (1, 4)
         score = 0
-        for shi in range(P.K_shift):
+        #for shi in range(P.K_shift):
+        for shi in range(len(P.weight_sim)):
             score += (f_sim[shi] * P.axis[shi]).sum(dim=1).max().item() * P.weight_sim[shi]
             score += f_shi[shi][:, shi].item() * P.weight_shi[shi]
         score = score / P.K_shift
